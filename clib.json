@@ -1,0 +1,16 @@
+{
+  "name": "tempora",
+  "version": "0.6.1",
+  "repo": "think-biq/tempora",
+  "description": "Terminal ansi escape goodies",
+  "keywords": ["temp", "temporary", "path", "directory", "dir"],
+  "license": "MIT",
+  "src": [
+    "src/tempora/all.h",
+    "src/tempora/common.h",
+    "src/tempora/read.h",
+    "src/tempora/specific.h",
+    "src/tempora/read.c",
+    "src/tempora/specific.c"
+  ]
+}
