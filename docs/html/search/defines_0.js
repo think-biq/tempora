@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['tempora_5fpath_5fsize_0',['TEMPORA_PATH_SIZE',['../common_8h.html#a67725f3c4092a42fc115dbd9eee8138d',1,'common.h']]]
+  ['tempora_5fpath_5fseparator_5fchar_0',['TEMPORA_PATH_SEPARATOR_CHAR',['../common_8h.html#add234e94e7ed8d98f53b608d4fd27f9c',1,'common.h']]],
+  ['tempora_5fpath_5fsize_1',['TEMPORA_PATH_SIZE',['../common_8h.html#a67725f3c4092a42fc115dbd9eee8138d',1,'common.h']]]
 ];
