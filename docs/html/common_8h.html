@@ -87,7 +87,8 @@ $(document).ready(function(){initNavTree('common_8h.html',''); initResizable(); 
   <div class="summary">
 <a href="#define-members">Macros</a> &#124;
 <a href="#typedef-members">Typedefs</a> &#124;
-<a href="#enum-members">Enumerations</a>  </div>
+<a href="#enum-members">Enumerations</a> &#124;
+<a href="#func-members">Functions</a>  </div>
   <div class="headertitle"><div class="title">common.h File Reference</div></div>
 </div><!--header-->
 <div class="contents">
@@ -117,6 +118,12 @@ Enumerations</h2></td></tr>
  }</td></tr>
 <tr class="memdesc:a12a9800d4152308ece6dcc56a46bc081"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines the type of temporary directory read by tempora.  <a href="common_8h.html#a12a9800d4152308ece6dcc56a46bc081">More...</a><br /></td></tr>
 <tr class="separator:a12a9800d4152308ece6dcc56a46bc081"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:a94292587f4e721d5e8f141f50778949c"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="common_8h.html#a94292587f4e721d5e8f141f50778949c">tempora_dir_type_name</a> (enum <a class="el" href="common_8h.html#a12a9800d4152308ece6dcc56a46bc081">tempora_temp_dir_type</a> dir_type)</td></tr>
+<tr class="memdesc:a94292587f4e721d5e8f141f50778949c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Finds the string representation of given directory type.  <a href="common_8h.html#a94292587f4e721d5e8f141f50778949c">More...</a><br /></td></tr>
+<tr class="separator:a94292587f4e721d5e8f141f50778949c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p >Retrieve path to temp directories. </p>
@@ -179,6 +186,34 @@ Enumerations</h2></td></tr>
 <tr><td class="fieldname"><a id="a12a9800d4152308ece6dcc56a46bc081af66b824f9727fa1c166af971684f7142" name="a12a9800d4152308ece6dcc56a46bc081af66b824f9727fa1c166af971684f7142"></a>TEMPORA_CWD&#160;</td><td class="fielddoc"><p >Path found in current working directory. </p>
 </td></tr>
 </table>
+
+</div>
+</div>
+<h2 class="groupheader">Function Documentation</h2>
+<a id="a94292587f4e721d5e8f141f50778949c" name="a94292587f4e721d5e8f141f50778949c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a94292587f4e721d5e8f141f50778949c">&#9670;&nbsp;</a></span>tempora_dir_type_name()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const char * tempora_dir_type_name </td>
+          <td>(</td>
+          <td class="paramtype">enum <a class="el" href="common_8h.html#a12a9800d4152308ece6dcc56a46bc081">tempora_temp_dir_type</a>&#160;</td>
+          <td class="paramname"><em>dir_type</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Finds the string representation of given directory type. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">dir_type</td><td>The directory type.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>String representing the directory type. </dd></dl>
 
 </div>
 </div>
