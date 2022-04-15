@@ -13,6 +13,8 @@
 
 /**
  * @brief      Try reading the first available temporary file storage directory.
+ * 
+ * @see enum tempora_temp_dir_type
  *
  * @param      path  Pointer to the path buffer to be populated.
  * @param[in]  size  Size of the path buffer.

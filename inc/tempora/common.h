@@ -15,9 +15,12 @@
  */
 #define TEMPORA_PATH_SIZE 32768
 /**
- * Platform specific path separator.
+ * Platform specific path separator character.
  */
 #define TEMPORA_PATH_SEPARATOR_CHAR '\\'
+/**
+ * Platform specific path separator string.
+ */
 #define TEMPORA_PATH_SEPARATOR_STR "\\"
 #else
 /**
@@ -25,9 +28,12 @@
  */
 #define TEMPORA_PATH_SIZE 255
 /**
- * Platform specific path separator.
+ * Platform specific path separator character.
  */
 #define TEMPORA_PATH_SEPARATOR_CHAR '/'
+/**
+ * Platform specific path separator string.
+ */
 #define TEMPORA_PATH_SEPARATOR_STR "/"
 #endif
 
@@ -44,7 +50,7 @@ enum tempora_temp_dir_type {
 /**
  * @brief      Typedef for temp dir types.
  * 
- * @see tempora_temp_dir_type
+ * @see enum tempora_temp_dir_type
  */
 typedef
 	enum tempora_temp_dir_type
@@ -52,6 +58,8 @@ typedef
 
 /**
  * @brief      Finds the string representation of given directory type.
+ * 
+ * @see enum tempora_temp_dir_type
  *
  * @param[in]  dir_type  The directory type.
  *
