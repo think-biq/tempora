@@ -44,4 +44,20 @@ tempora_read_from_platform_path(char* path, unsigned int size);
 int
 tempora_read_from_cwd(char* path, unsigned int size);
 
+/**
+ * @brief      Manipulates path in place to be side-by-side with program path.
+ * 
+ * Given the path result created by tempora_read_from_cwd, this function takes
+ * the program name from argv and appends it.
+ * 
+ * @see tempora_read_from_cwd
+ *
+ * @param      path  Pointer to the path buffer to be populated.
+ * @param      argv  Argument list passed to the program.
+ *
+ * @return     Returns 0 < on Success, 0 on failure.
+ */
+int
+tempora_build_temp_dir_from_cwd(char* path, char** argv);
+
 #endif

@@ -14,11 +14,21 @@
  * Maximum available path size.
  */
 #define TEMPORA_PATH_SIZE 32768
+/**
+ * Platform specific path separator.
+ */
+#define TEMPORA_PATH_SEPARATOR_CHAR '\\'
+#define TEMPORA_PATH_SEPARATOR_STR "\\"
 #else
 /**
  * Maximum available path size.
  */
 #define TEMPORA_PATH_SIZE 255
+/**
+ * Platform specific path separator.
+ */
+#define TEMPORA_PATH_SEPARATOR_CHAR '/'
+#define TEMPORA_PATH_SEPARATOR_STR "/"
 #endif
 
 /**
