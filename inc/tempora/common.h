@@ -10,17 +10,32 @@
 #define _H_TEMPORA_COMMON_H_
 
 #ifdef _WIN32
+/**
+ * Maximum available path size.
+ */
 #define TEMPORA_PATH_SIZE 32768
 #else
+/**
+ * Maximum available path size.
+ */
 #define TEMPORA_PATH_SIZE 255
 #endif
 
+/**
+ * @brief      Defines the type of temporary directory read by tempora.
+ */
 enum tempora_temp_dir_type {
-	TEMPORA_ERROR = 0,
-	TEMPORA_ENV = 1,
-	TEMPORA_PLATFORM = 2,
-	TEMPORA_CWD = 3
+	TEMPORA_ERROR		= 0,	/**< Error getting path. */
+	TEMPORA_ENV			= 1,	/**< Path found in environment variable. */
+	TEMPORA_PLATFORM	= 2,	/**< Path found in common platform paths. */
+	TEMPORA_CWD			= 3		/**< Path found in current working directory. */
 };
+
+/**
+ * @brief      Typedef for temp dir types.
+ * 
+ * @see tempora_temp_dir_type
+ */
 typedef
 	enum tempora_temp_dir_type
 	tempora_temp_dir_type_t;

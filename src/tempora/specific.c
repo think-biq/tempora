@@ -1,10 +1,5 @@
 // 2022-∞ (c) blurryroots innovation qanat OÜ. All rights reserved.
 // See license.md for details.
-/*! \file specific.c
-	\brief Retrieve path to temp directories.
-
-	^^
-*/
 
 #include <stdio.h>
 #include <stdlib.h>
