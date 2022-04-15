@@ -8,20 +8,20 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdint.h>
+#include <string.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
-#include <stdint.h>
-#include <string.h>
 #include <fcntl.h>
 
+#if defined(WIN32)
+#include <processenv.h>
+#endif
+
+#include <tempora/common.h>
 #include <tempora/specific.h>
 
-/**
- * Check if the file at `path` exists and is a directory.
- *
- * Returns `0` if both checks pass, and `-1` if either fail.
- */
 int
 _tempora_is_directory(const char *path) {
 	static struct stat s;
@@ -35,54 +35,105 @@ _tempora_is_directory(const char *path) {
 		;
 }
 
-uint8_t
+char*
+_tempora_getenv(const char* env_var) {
+	#if defined(_WIN32_WCE) || defined(CURL_WINDOWS_APP)
+	(void)env_var; // Signal variable not being used.
+	return NULL;
+	#elif defined(WIN32)
+	// Courtesy to curl development community:
+	// https://github.com/curl/curl/issues/4774
+	/* This uses Windows API instead of C runtime getenv() to get the environment
+	 variable since some changes aren't always visible to the latter. #4774 */
+	char *buf = NULL;
+	char *tmp;
+	DWORD bufsize;
+	DWORD rc = 1;
+
+	for(;;) {
+		tmp = realloc(buf, rc);
+		if(!tmp) {
+			free(buf);
+			return NULL;
+		}
+
+		buf = tmp;
+		bufsize = rc;
+
+		/* It's possible for rc to be 0 if the variable was found but empty.
+		   Since getenv doesn't make that distinction we ignore it as well. */
+		rc = GetEnvironmentVariableA(env_var, buf, bufsize);
+		if(!rc || rc == bufsize || rc > 32768) {
+			free(buf);
+			return NULL;
+		}
+
+		/* if rc < bufsize then rc is bytes written not including null */
+		if(rc < bufsize)
+			return buf;
+
+		/* else rc is bytes needed, try again */
+	}
+	#else
+	char *env = getenv(env_var);
+	return (env && env[0]) 
+		? strdup(env)
+		: NULL
+		;
+	#endif
+}
+
+int
 tempora_read_from_env(char* path, unsigned int size) {
 	static const char *env_vars[] = {
 		"TMPDIR",
 		"TEMP",
 		"TMP",
-		// RiscOS (4.1)
-		"Wimp$ScrapDir",
-		NULL,
+		// RiscOS
+		"Wimp$ScrapDir"
 	};
+	static const uint8_t env_vars_count =
+		sizeof env_vars / sizeof *env_vars;
 
-	// check ENV vars (1, 2, 3)
 	for (int i = 0; env_vars[i]; i++) {
-		char *dir = getenv(env_vars[i]);
-		if (dir && 0 == _tempora_is_directory(dir)) {
-			strncpy(path, dir, size);
-			return 1;
+		char *value = getenv(env_vars[i]);
+		if (NULL != value) {
+			if(0 == _tempora_is_directory(value)) {
+				strncpy(path, value, size);
+				#if defined(WIN32)
+				free(value);
+				#endif
+				return 1;
+			}
+			#if defined(WIN32)
+			free(value);
+			#endif
 		}
 	}
 
 	return 0;
 }
 
-uint8_t
-tempora_read_from_platform_dirs(char* path, unsigned int size) {
+int
+tempora_read_from_platform_path(char* path, unsigned int size) {
+	static const char *platform_paths[] = {
 	#ifdef _WIN32
-	// 4.2
-	static const char *platform_dirs[] = {
 		"C:\\TEMP",
 		"C:\\TMP",
 		"\\TEMP",
-		"\\TMP",
-		NULL,
-	};
+		"\\TMP"
 	#else
-	// 4.3
-	static const char *platform_dirs[] = {
 		"/tmp",
 		"/var/tmp",
-		"/usr/tmp",
-		NULL,
-	};
+		"/usr/tmp"
 	#endif
+	};
+	static const uint8_t paths_count =
+		sizeof platform_paths / sizeof *platform_paths;
 
-	// platform-specific checks (4)
-	for (int i = 0; platform_dirs[i]; i++) {
-		if (0 == _tempora_is_directory(platform_dirs[i])) {
-			strncpy(path, platform_dirs[i], size);
+	for (int i = 0; i < paths_count; i++) {
+		if (0 == _tempora_is_directory(platform_paths[i])) {
+			strncpy(path, platform_paths[i], size);
 			return 1;
 		}
 	}
@@ -90,16 +141,16 @@ tempora_read_from_platform_dirs(char* path, unsigned int size) {
 	return 0;
 }
 
-uint8_t
+int
 tempora_read_from_cwd(char* path, unsigned int size) {
-	#ifdef _WIN32
-	#define _TEMPORA_PATH_SIZE 256
-	#else
-	#define _TEMPORA_PATH_SIZE 4096
-	#endif
-	static char cwd[_TEMPORA_PATH_SIZE] = {0};
+	static char cwd[TEMPORA_PATH_SIZE] = {0};
+
+	unsigned int path_size = TEMPORA_PATH_SIZE <= size
+		? TEMPORA_PATH_SIZE - 1
+		: size
+		;
 	if (NULL != getcwd(cwd, sizeof(cwd))) {
-		strncpy(path, cwd, size);
+		strncpy(path, cwd, path_size);
 		return 1;
 	}
 

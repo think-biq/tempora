@@ -9,7 +9,7 @@
 #ifndef _H_TEMPORA_READ_H_
 #define _H_TEMPORA_READ_H_
 
-enum tempora_temp_dir_type;
+#include "common.h"
 
 tempora_temp_dir_type_t
 tempora_read(char* path, unsigned int size);
