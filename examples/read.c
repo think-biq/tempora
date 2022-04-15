@@ -1,8 +1,9 @@
+// 2022-∞ (c) blurryroots innovation qanat OÜ. All rights reserved.
+// See license.md for details.
 
 #include <stdio.h>
 
 #include <tempora/all.h>
-
 
 int main () {
 	char path[TEMPORA_PATH_SIZE];
@@ -12,7 +13,6 @@ int main () {
 		return 1;
 	}
 
-	printf("Temp path: %s\n", path);
-
+	printf("Temp path: %s (type: %s)\n", path, tempora_dir_type_name(t));
 	return 0;
 }

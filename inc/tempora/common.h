@@ -40,4 +40,14 @@ typedef
 	enum tempora_temp_dir_type
 	tempora_temp_dir_type_t;
 
+/**
+ * @brief      Finds the string representation of given directory type.
+ *
+ * @param[in]  dir_type  The directory type.
+ *
+ * @return     String representing the directory type.
+ */
+const char*
+tempora_dir_type_name(enum tempora_temp_dir_type dir_type);
+
 #endif

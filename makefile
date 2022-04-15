@@ -1,4 +1,4 @@
-all: prepare analyze build build-example build-docs
+all: prepare analyze build build-example
 docs: build-docs
 examples: prepare build build-example
 run: run-example-read
