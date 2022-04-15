@@ -1,5 +1,6 @@
-all: prepare analyze build
-examples: all build-example
+all: prepare analyze build build-docs build-example
+docs: build-docs
+examples: prepare build build-example
 run: run-example-read
 grind: grind-example-read
 
@@ -14,6 +15,10 @@ build:
 
 build-example:
 	cmake --build staging --target tempora-example-read
+
+build-docs:
+	@echo "Building docxygen documentation to docs/html ..."
+	@doxygen docs/Doxyfile > docs/Doxyfile.log 2> docs/Doxyfile.err.log
 
 run-example-read:
 	staging/./tempora-example-read
