@@ -47,3 +47,11 @@ target_include_directories(tempora PUBLIC
     PUBLIC $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/inc>
 )
 set_property(TARGET tempora PROPERTY C_STANDARD 17)
+
+#.
+add_executable(tempora-example-read EXCLUDE_FROM_ALL
+    ${PROJECT_SOURCE_DIR}/examples/read.c
+)
+set_property(TARGET tempora-example-read PROPERTY C_STANDARD 17)
+add_dependencies(tempora-example-read tempora)
+target_link_libraries(tempora-example-read tempora)
