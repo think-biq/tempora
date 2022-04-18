@@ -5,25 +5,7 @@
 
 #include <tempora/all.h>
 
-//#define USE_ENV
-//#define USE_PLATFORM
-//#define USE_CWD
-
-int main (int argc, char** argv) {
-	char path[TEMPORA_PATH_SIZE];
-
-	#if defined(USE_ENV)
-	tempora_temp_dir_type_t t = TEMPORA_ENV;
-	tempora_read_from_env(path, TEMPORA_PATH_SIZE);
-	#elif defined(USE_PLATFORM)
-	tempora_temp_dir_type_t t = TEMPORA_PLATFORM;
-	tempora_read_from_platform_path(path, TEMPORA_PATH_SIZE);
-	#elif defined(USE_CWD)
-	tempora_temp_dir_type_t t = TEMPORA_CWD;
-	tempora_read_from_cwd(path, TEMPORA_PATH_SIZE);
-	#else
-	tempora_temp_dir_type_t t = tempora_read(path, TEMPORA_PATH_SIZE);
-	#endif
+int evaluate_path(char* path, tempora_path_type_t t, char** argv) {
 	switch(t) {
 		case TEMPORA_ERROR:
 			printf("Could not read temp directory :/\n");
@@ -41,10 +23,38 @@ int main (int argc, char** argv) {
 			else {
 				printf("Could not build side-by-side temp dir :/\n");
 			}
-		break;		
+		break;
+		default:
+			printf("Could not identify path type :/\n");
+			return 0;
 	}
 
-	printf("Temp path: %s (type: %s)\n", path, tempora_dir_type_name(t));
+	return 1;
+}
+
+int main (int argc, char** argv) {
+	char path[TEMPORA_PATH_SIZE];
+	tempora_path_type_t t;
+
+	t = TEMPORA_ENV;
+	if (tempora_read_from_env(path, TEMPORA_PATH_SIZE)) {
+		if (0 == evaluate_path(path, t, argv)) return 1;
+	}
+	
+	t = TEMPORA_PLATFORM;
+	if (tempora_read_from_platform_path(path, TEMPORA_PATH_SIZE)) {
+		if (0 == evaluate_path(path, t, argv)) return 1;
+	}
+	
+	t = TEMPORA_CWD;
+	if (tempora_read_from_cwd(path, TEMPORA_PATH_SIZE)) {
+		if (0 == evaluate_path(path, t, argv)) return 1;
+	}
+	
+	t = tempora_read(path, TEMPORA_PATH_SIZE);
+	if (TEMPORA_ERROR != t) {
+		if (0 == evaluate_path(path, t, argv)) return 1;
+	}
 
 	return 0;
 }
