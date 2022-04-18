@@ -40,7 +40,7 @@
 /**
  * @brief      Defines the type of temporary directory read by tempora.
  */
-enum tempora_temp_dir_type {
+enum tempora_path_type {
 	TEMPORA_ERROR		= 0,	/**< Error getting path. */
 	TEMPORA_ENV			= 1,	/**< Path found in environment variable. */
 	TEMPORA_PLATFORM	= 2,	/**< Path found in common platform paths. */
@@ -50,22 +50,22 @@ enum tempora_temp_dir_type {
 /**
  * @brief      Typedef for temp dir types.
  * 
- * @see enum tempora_temp_dir_type
+ * @see enum tempora_path_type
  */
 typedef
-	enum tempora_temp_dir_type
-	tempora_temp_dir_type_t;
+	enum tempora_path_type
+	tempora_path_type_t;
 
 /**
  * @brief      Finds the string representation of given directory type.
  * 
- * @see enum tempora_temp_dir_type
+ * @see enum tempora_path_type
  *
  * @param[in]  dir_type  The directory type.
  *
  * @return     String representing the directory type.
  */
 const char*
-tempora_dir_type_name(enum tempora_temp_dir_type dir_type);
+tempora_dir_type_name(enum tempora_path_type dir_type);
 
 #endif

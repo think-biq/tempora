@@ -15,7 +15,7 @@
 #include <tempora/specific.h>
 
 
-tempora_temp_dir_type_t
+tempora_path_type_t
 tempora_read(char* path, unsigned int size) {
 	if (tempora_read_from_env(path, size)) {
 		return TEMPORA_ENV;

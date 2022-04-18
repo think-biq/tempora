@@ -4,7 +4,7 @@
 #include <tempora/common.h>
 
 const char*
-tempora_dir_type_name(enum tempora_temp_dir_type dir_type) {
+tempora_dir_type_name(enum tempora_path_type dir_type) {
 	switch(dir_type) {
 		case TEMPORA_ERROR:
 			return "TEMPORA_ERROR";
