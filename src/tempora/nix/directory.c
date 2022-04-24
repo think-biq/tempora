@@ -11,6 +11,11 @@
 #include <libgen.h>
 #include <unistd.h>
 
+char*
+_tempora_getcwd(char* path, unsigned int max_size) {
+	return getcwd(path, max_size);
+}
+
 int
 _tempora_is_directory(const char *path) {
 	static struct stat s;

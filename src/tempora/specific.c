@@ -24,6 +24,9 @@ _tempora_realpath(const char* partial, char* real, unsigned int max_size);
 char*
 _tempora_dirname(const char* path);
 
+char*
+_tempora_getcwd(char* path, unsigned int max_size);
+
 int
 tempora_read_from_env(char* path, unsigned int size) {
 	static const char *known_variables[] = {
@@ -96,7 +99,7 @@ tempora_read_from_cwd(char* path, unsigned int size) {
 		? TEMPORA_PATH_SIZE - 1
 		: size
 		;
-	if (NULL != getcwd(cwd, sizeof(cwd))) {
+	if (NULL != _tempora_getcwd(cwd, sizeof(cwd))) {
 		strncpy(path, cwd, path_size);
 		return 1;
 	}
