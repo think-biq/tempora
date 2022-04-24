@@ -5,14 +5,17 @@
 #include <stdlib.h>
 #include <stdint.h>
 #include <string.h>
-#include <libgen.h>
 #include <sys/types.h>
 #include <sys/stat.h>
-#include <unistd.h>
 #include <fcntl.h>
 
 #if defined(WIN32)
+#define WIN32_LEAN_AND_MEAN
+#include <windows.h>
 #include <processenv.h>
+#else
+#include <libgen.h>
+#include <unistd.h>
 #endif
 
 #include <tempora/common.h>
@@ -21,14 +24,14 @@
 int
 _tempora_is_directory(const char *path) {
 	#if defined(WIN32)
-	if(0 == _taccess_s( absolutePath, 0 ))
-	{
-		struct _stat status;
-		_tstat( absolutePath, &status );
-		return 0 != (status.st_mode & S_IFDIR);
-	}
+	if(0 == _access( path, 0 )){
 
-	return 0;
+        struct stat status;
+        stat(path, &status);
+
+        return 0 != (status.st_mode & S_IFDIR);
+    }
+    return 0;
 	#else
 	static struct stat s;
 	if (-1 == stat(path, &s)) {
