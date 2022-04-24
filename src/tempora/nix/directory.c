@@ -31,7 +31,7 @@ _tempora_is_directory(const char *path) {
 
 char*
 _tempora_realpath(const char* partial, char* real, unsigned int max_size) {
-    return realpath(real, partial);
+    return realpath(partial, real);
 }
 
 char*
