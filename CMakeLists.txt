@@ -45,6 +45,8 @@ endif ()
 if (MSVC)
     # warning level 4 and all warnings as errors
     #add_compile_options(/W4 /WX)
+    add_definitions(-D_CRT_SECURE_NO_WARNINGS=1)
+    add_definitions(-Dstrdup=_strdup)
 else()
     # lots of warnings and all warnings as errors
     add_compile_options(-Wunused-result)

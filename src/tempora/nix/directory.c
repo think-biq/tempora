@@ -12,7 +12,7 @@
 #include <unistd.h>
 
 char*
-_tempora_getcwd(char* path, unsigned int max_size) {
+_tempora_getcwd(char* path, size_t max_size) {
 	return getcwd(path, max_size);
 }
 
@@ -30,7 +30,7 @@ _tempora_is_directory(const char *path) {
 }
 
 char*
-_tempora_realpath(const char* partial, char* real, unsigned int max_size) {
+_tempora_realpath(const char* partial, char* real, size_t max_size) {
     return realpath(partial, real);
 }
 

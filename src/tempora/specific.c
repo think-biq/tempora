@@ -19,13 +19,13 @@ char*
 _tempora_getenv(const char* variable);
 
 char*
-_tempora_realpath(const char* partial, char* real, unsigned int max_size);
+_tempora_realpath(const char* partial, char* real, size_t max_size);
 
 char*
 _tempora_dirname(const char* path);
 
 char*
-_tempora_getcwd(char* path, unsigned int max_size);
+_tempora_getcwd(char* path, size_t max_size);
 
 int
 tempora_read_from_env(char* path, unsigned int size) {
@@ -43,7 +43,7 @@ tempora_read_from_env(char* path, unsigned int size) {
 		if (NULL != value && 0 < strlen(value)) {
 			if(0 == _tempora_is_directory(value)) {
 				char* selected_path = strdup(value);
-				const unsigned int l = strlen(selected_path);
+				const size_t l = strlen(selected_path);
 				// Make sure path is normalized.
 				if (NULL == _tempora_realpath(value, selected_path, l)) {
 					return 0;

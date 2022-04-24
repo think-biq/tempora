@@ -23,7 +23,7 @@
 #define FAILURE_INSUFFICIENT_BUFFER 3L
 
 char*
-_tempora_getcwd(char* path, unsigned int max_size) {
+_tempora_getcwd(char* path, size_t max_size) {
 	return _getcwd(path, max_size);
 }
 
@@ -43,7 +43,7 @@ _tempora_is_directory(const char *path) {
 }
 
 char*
-_tempora_realpath(const char* partial, char* real, unsigned int max_size) {
+_tempora_realpath(const char* partial, char* real, size_t max_size) {
 	//return _fullpath(real, partial, max_size);
 	DWORD r = GetFullPathName(partial,
 				 max_size,
