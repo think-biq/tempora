@@ -9,98 +9,20 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 
-#if defined(WIN32)
-#define WIN32_LEAN_AND_MEAN
-#include <windows.h>
-#include <processenv.h>
-#else
-#include <libgen.h>
-#include <unistd.h>
-#endif
-
 #include <tempora/common.h>
 #include <tempora/specific.h>
 
 int
-_tempora_is_directory(const char *path) {
-	#if defined(WIN32)
-	if(0 == _access( path, 0 )){
-
-        struct stat status;
-        stat(path, &status);
-
-        return 0 != (status.st_mode & S_IFDIR);
-    }
-    return 0;
-	#else
-	static struct stat s;
-	if (-1 == stat(path, &s)) {
-		return -1;
-	}
-
-	return 1 == S_ISDIR(s.st_mode)
-		? 0
-		: -1
-		;
-	#endif
-}
-
-#if defined(WIN32)
-char*
-_tempora_getenv_win(const char* variable) {
-	// Courtesy to curl development community:
-	// https://github.com/curl/curl/issues/4774
-	 
-	// This uses Windows API instead of C runtime getenv() to get the environment
-	// variable since some changes aren't always visible to the latter. #4774
-	char *buf = NULL;
-	char *tmp;
-	DWORD bufsize;
-	DWORD rc = 1;
-
-	for (;;) {
-		tmp = realloc(buf, rc);
-		if(NULL == tmp) {
-			free(buf);
-			return NULL;
-		}
-
-		buf = tmp;
-		bufsize = rc;
-
-		// It's possible for rc to be 0 if the variable was found but empty.
-		// Since getenv doesn't make that distinction we ignore it as well.
-		rc = GetEnvironmentVariableA(variable, buf, bufsize);
-		if(NULL != rc || rc == bufsize || TEMPORA_PATH_SIZE < rc) {
-			free(buf);
-			return NULL;
-		}
-
-		// If rc < bufsize then rc is bytes written not including null.
-		if(rc < bufsize) {
-			return buf;
-		}
-
-		// Else rc is bytes needed, try again.
-	}
-}
-#endif
+_tempora_is_directory(const char *path);
 
 char*
-_tempora_getenv(const char* variable) {
-	#if defined(_WIN32_WCE)
-	(void)variable; // Signal variable not being used.
-	return NULL;
-	#elif defined(WIN32)
-	return _tempora_getenv_win(variable);
-	#else
-	char *env = getenv(variable);
-	return (NULL != env && '\0' != env[0])
-		? strdup(env)
-		: NULL
-		;
-	#endif
-}
+_tempora_getenv(const char* variable);
+
+char*
+_tempora_realpath(const char* partial, char* real, unsigned int max_size);
+
+char*
+_tempora_dirname(const char* path);
 
 int
 tempora_read_from_env(char* path, unsigned int size) {
@@ -115,12 +37,12 @@ tempora_read_from_env(char* path, unsigned int size) {
 
 	for (int i = 0; i < known_variables_count; i++) {
 		char *value = _tempora_getenv(known_variables[i]);
-		if (NULL != value) {
+		if (NULL != value && 0 < strlen(value)) {
 			if(0 == _tempora_is_directory(value)) {
 				char* selected_path = strdup(value);
-
+				const unsigned int l = strlen(selected_path);
 				// Make sure path is normalized.
-				if (NULL == realpath(value, selected_path)) {
+				if (NULL == _tempora_realpath(value, selected_path, l)) {
 					return 0;
 				}
 
@@ -183,7 +105,7 @@ tempora_read_from_cwd(char* path, unsigned int size) {
 }
 
 int
-tempora_build_temp_dir_from_cwd(char* path, char** argv) {
+tempora_build_temp_dir_from_cwd(char* path, char** argv, size_t max_path_length) {
 	static char out_path[TEMPORA_PATH_SIZE] = {0};
 
 	// We got path from where program was started.
@@ -197,9 +119,9 @@ tempora_build_temp_dir_from_cwd(char* path, char** argv) {
 	}
 
 	// Append directory part of exe name.
-	strcat(path, dirname(argv[0]));
+	strcat(path, _tempora_dirname(argv[0]));
 	// Make sure path is normalized.
-	if (NULL == realpath(path, out_path)) {
+	if (NULL == _tempora_realpath(path, out_path, TEMPORA_PATH_SIZE)) {
 		return 0;
 	}
 
