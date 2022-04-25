@@ -54,10 +54,11 @@ tempora_read_from_cwd(char* path, unsigned int size);
  *
  * @param      path  Pointer to the path buffer to be populated.
  * @param      argv  Argument list passed to the program.
+ * @param      max_path_length  Maximum space available at *path*.
  *
  * @return     Returns 0 < on Success, 0 on failure.
  */
 int
-tempora_build_temp_dir_from_cwd(char* path, char** argv);
+tempora_build_temp_dir_from_cwd(char* path, char** argv, size_t max_path_length);
 
 #endif

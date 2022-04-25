@@ -5,7 +5,7 @@
 
 #include <tempora/all.h>
 
-int evaluate_path(char* path, tempora_path_type_t t, char** argv) {
+int evaluate_path(char* path, tempora_path_type_t t, char** argv, size_t max_path_length) {
 	switch(t) {
 		case TEMPORA_ERROR:
 			printf("Could not read temp directory :/\n");
@@ -17,7 +17,7 @@ int evaluate_path(char* path, tempora_path_type_t t, char** argv) {
 			printf("Read from platform specifc path: %s\n", path);
 		break;
 		case TEMPORA_CWD:
-			if (tempora_build_temp_dir_from_cwd(path, argv)) {
+			if (tempora_build_temp_dir_from_cwd(path, argv, max_path_length)) {
 				printf("Read from working directory: %s\n", path);
 			}
 			else {
@@ -38,22 +38,22 @@ int main (int argc, char** argv) {
 
 	t = TEMPORA_ENV;
 	if (tempora_read_from_env(path, TEMPORA_PATH_SIZE)) {
-		if (0 == evaluate_path(path, t, argv)) return 1;
+		if (0 == evaluate_path(path, t, argv, TEMPORA_PATH_SIZE)) return 1;
 	}
 	
 	t = TEMPORA_PLATFORM;
 	if (tempora_read_from_platform_path(path, TEMPORA_PATH_SIZE)) {
-		if (0 == evaluate_path(path, t, argv)) return 1;
+		if (0 == evaluate_path(path, t, argv, TEMPORA_PATH_SIZE)) return 1;
 	}
 	
 	t = TEMPORA_CWD;
 	if (tempora_read_from_cwd(path, TEMPORA_PATH_SIZE)) {
-		if (0 == evaluate_path(path, t, argv)) return 1;
+		if (0 == evaluate_path(path, t, argv, TEMPORA_PATH_SIZE)) return 1;
 	}
 	
 	t = tempora_read(path, TEMPORA_PATH_SIZE);
 	if (TEMPORA_ERROR != t) {
-		if (0 == evaluate_path(path, t, argv)) return 1;
+		if (0 == evaluate_path(path, t, argv, TEMPORA_PATH_SIZE)) return 1;
 	}
 
 	return 0;

@@ -5,10 +5,11 @@
 #include <stdlib.h>
 #include <sys/types.h>
 #include <sys/stat.h>
-#include <unistd.h>
 #include <stdint.h>
 #include <string.h>
-#include <fcntl.h>
+#if defined(WIN32)
+#else
+#endif
 
 #include <tempora/common.h>
 #include <tempora/read.h>

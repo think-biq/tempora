@@ -30,19 +30,33 @@ option(BUILD_SHARED_LIBS "Build using shared libraries" OFF)
 set (CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 set (CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 
+if (WIN32)
+    file(GLOB_RECURSE TEMPORA_PLATFORM_SRC
+        ${PROJECT_SOURCE_DIR}/src/tempora/win/*.c
+    )
+elseif (UNIX)
+    file(GLOB_RECURSE TEMPORA_PLATFORM_SRC
+        ${PROJECT_SOURCE_DIR}/src/tempora/nix/*.c
+    )
+else ()
+    message (FATAL_ERROR "Operating system not supported!")
+endif ()
+
 if (MSVC)
     # warning level 4 and all warnings as errors
     #add_compile_options(/W4 /WX)
+    add_definitions(-D_CRT_SECURE_NO_WARNINGS=1)
+    add_definitions(-Dstrdup=_strdup)
 else()
     # lots of warnings and all warnings as errors
     add_compile_options(-Wunused-result)
 endif()
 
 # Collect source and header files.
-file(GLOB_RECURSE TEMPORA_SRC
+file(GLOB TEMPORA_SRC
     ${PROJECT_SOURCE_DIR}/src/tempora/*.c
 )
-add_library(tempora ${TEMPORA_SRC})
+add_library(tempora ${TEMPORA_SRC} ${TEMPORA_PLATFORM_SRC})
 target_include_directories(tempora PUBLIC
     PUBLIC $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/inc>
 )
