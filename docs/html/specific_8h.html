@@ -106,16 +106,16 @@ Functions</h2></td></tr>
 <tr class="memitem:a034864bfe303720bead52c0784de8e99"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="specific_8h.html#a034864bfe303720bead52c0784de8e99">tempora_read_from_cwd</a> (char *path, unsigned int size)</td></tr>
 <tr class="memdesc:a034864bfe303720bead52c0784de8e99"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read the path of the current working directory.  <a href="specific_8h.html#a034864bfe303720bead52c0784de8e99">More...</a><br /></td></tr>
 <tr class="separator:a034864bfe303720bead52c0784de8e99"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4d71dfddc77774d819c62c4fe5d05ce0"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="specific_8h.html#a4d71dfddc77774d819c62c4fe5d05ce0">tempora_build_temp_dir_from_cwd</a> (char *path, char **argv)</td></tr>
-<tr class="memdesc:a4d71dfddc77774d819c62c4fe5d05ce0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Manipulates path in place to be side-by-side with program path.  <a href="specific_8h.html#a4d71dfddc77774d819c62c4fe5d05ce0">More...</a><br /></td></tr>
-<tr class="separator:a4d71dfddc77774d819c62c4fe5d05ce0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad03a06297dcd3e005c77da4c8e50bed9"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="specific_8h.html#ad03a06297dcd3e005c77da4c8e50bed9">tempora_build_temp_dir_from_cwd</a> (char *path, char **argv, size_t max_path_length)</td></tr>
+<tr class="memdesc:ad03a06297dcd3e005c77da4c8e50bed9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Manipulates path in place to be side-by-side with program path.  <a href="specific_8h.html#ad03a06297dcd3e005c77da4c8e50bed9">More...</a><br /></td></tr>
+<tr class="separator:ad03a06297dcd3e005c77da4c8e50bed9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p >Retrieve path to temp directories. </p>
 <p >^^ </p>
 </div><h2 class="groupheader">Function Documentation</h2>
-<a id="a4d71dfddc77774d819c62c4fe5d05ce0" name="a4d71dfddc77774d819c62c4fe5d05ce0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4d71dfddc77774d819c62c4fe5d05ce0">&#9670;&nbsp;</a></span>tempora_build_temp_dir_from_cwd()</h2>
+<a id="ad03a06297dcd3e005c77da4c8e50bed9" name="ad03a06297dcd3e005c77da4c8e50bed9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad03a06297dcd3e005c77da4c8e50bed9">&#9670;&nbsp;</a></span>tempora_build_temp_dir_from_cwd()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -130,7 +130,13 @@ Functions</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">char **&#160;</td>
-          <td class="paramname"><em>argv</em>&#160;</td>
+          <td class="paramname"><em>argv</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>max_path_length</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -146,7 +152,8 @@ Functions</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">path</td><td>Pointer to the path buffer to be populated. </td></tr>
-    <tr><td class="paramname">argv</td><td>Argument list passed to the program.</td></tr>
+    <tr><td class="paramname">argv</td><td>Argument list passed to the program. </td></tr>
+    <tr><td class="paramname">max_path_length</td><td>Maximum space available at <em>path</em>.</td></tr>
   </table>
   </dd>
 </dl>
